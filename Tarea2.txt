@@ -1,0 +1,43 @@
+CORS
+
+La same-origin policy (SOP o política de seguridad del mismo origen) prohíbe que se carguen datos de servidores ajenos al acceder a una página web. Todos los datos deben provenir de la misma fuente, es decir, corresponder al mismo servidor. Se trata de una medida de seguridad, ya que JavaScript y CSS podrían cargar, sin que el usuario lo supiese, contenido de otros servidores (y, con este, también contenido malicioso). Tales intentos son denominados “cross-origin requests”. Si, por el contrario, ambos administradores web saben del intercambio de contenido y lo aprueban, no tiene sentido impedir este proceso. El servidor solicitado (es decir, aquel del que se quiere cargar contenido) puede permitir entonces el acceso mediante cross-origin resource sharing, en castellano, intercambio de recursos de origen cruzado.
+
+Este permiso se da, no obstante, únicamente a clientes concretos, es decir, el CORS no es un comodín para realizar cualquier cross-origin request. En lugar de eso, el segundo servidor permite al primero un acceso exclusivo mediante una cabecera HTTP. En dicha cabecera de la respuesta HTTP está indicado específicamente qué servidores pueden cargar datos y ponerlos a disposición del usuario. El acceso generalizado a todos los clientes se permite únicamente mediante una “wildcard” o certificado comodín. Esta solución, sin embargo, solo es conveniente para servidores cuyo contenido debe estar a disposición del público general, como es el caso, por ejemplo, de las tipografías web.
+
+Si todo sale bien, el usuario no se percatará en absoluto del intercambio entre ambos servidores. Todos los navegadores actuales soportan el CORS, y el envío de solicitudes y respuestas sucede rápidamente al solicitar una página web sin que el usuario lo note.
+Referencia: https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy#cross-origin_network_access 
+https://www.ionos.es/digitalguide/paginas-web/desarrollo-web/cross-origin-resource-sharing/ 
+
+Politicas en APS.NET
+Debajo de las cubiertas, la autorización basada en roles y la autorización de las reclamaciones basadas en el uso de un requisito, un controlador de requerimiento, y una política pre-configurado. Estos bloques de construcción admiten la expresión de evaluaciones de autorización en código. El resultado es una estructura de autorización más rica, reutilizable y comprobable.
+
+Una política de autorización consta de uno o más requisitos. Está registrado como parte de la configuración del servicio de autorización, en el Startup.ConfigureServicesmétodo:
+
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllersWithViews();
+    services.AddRazorPages();
+    services.AddAuthorization(options =>
+    {
+        options.AddPolicy("AtLeast21", policy =>
+            policy.Requirements.Add(new MinimumAgeRequirement(21)));
+    });
+}
+
+
+
+FluentValidation: Es un complemento que me permite definir reglas a entidades que se van a manipular, permitiendo evaluar estas reglas ya predefinidas de manera más rápida y fácil.
+Un ejemplo claro para implementar esto, puede ser un formulario de registro, en el cual el usuario debe ingresar ciertos datos que deben ser estrictamente obligatorios, mediante esta técnica se podrán evaluar los que se definan usando el RuleFor, por ejemplo:
+
+using FluentValidation;
+
+public class CustomerValidator : AbstractValidator<Customer> {
+  public CustomerValidator() {
+    RuleFor(customer => customer.Surname).NotNull();
+  }
+}
+
+
+
+Referencia: https://docs.fluentvalidation.net/en/latest/start.html
